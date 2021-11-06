@@ -1,0 +1,194 @@
+<h1 class="vehicles-title">
+  Road traffic simulation :
+</h1>
+<form [formGroup]="form" #ngForm="ngForm">
+  <div class="vehicles-form">
+    <mat-card class="vehicles-form-column">
+      <mat-card-title>Global parameters</mat-card-title>
+      <mat-radio-group class="algo" formControlName="algo">
+        <mat-radio-button value="{{AlgoTypeEnum.STREAMQRE}}">StreamQRE</mat-radio-button>
+        <mat-radio-button value="{{AlgoTypeEnum.LAZYQRE}}">LazyQRE</mat-radio-button>
+        <mat-radio-button value="{{AlgoTypeEnum.NAIVE}}">Naive Algo</mat-radio-button>
+      </mat-radio-group>
+      <div class="slider-label">
+        <mat-label>Vehicle density</mat-label>
+        <mat-label>{{form.get("density")?.value + " vehicle(s)/min"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="density"
+        thumbLabel
+        step="100"
+        min="0"
+        max="5000"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Time acceleration</mat-label>
+        <mat-label>{{form.get("acceleration")?.value + "x"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="acceleration"
+        thumbLabel
+        step="0.1"
+        min="0"
+        max="10"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Slope grade</mat-label>
+        <mat-label>{{form.get("slopeGrade")?.value + "%"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="slopeGrade"
+        thumbLabel
+        step="0.1"
+        min="0"
+        max="10"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Tunnel length</mat-label>
+        <mat-label>{{form.get("length")?.value + "km"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="length"
+        thumbLabel
+        step="0.1"
+        min="0"
+        max="25"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Habitual use factor</mat-label>
+        <mat-label>{{form.get("habitualUseFactor")?.value}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="habitualUseFactor"
+        thumbLabel
+        step="0.01"
+        min="0.80"
+        max="1"
+        aria-label="units"></mat-slider>
+    </mat-card>
+
+    <mat-card class="vehicles-form-column">
+      <mat-card-title>Car parameters</mat-card-title>
+      <div class="slider-label">
+        <mat-label>Global rate</mat-label>
+        <mat-label>{{form.get("rateCar")?.value}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="rateCar"
+        thumbLabel
+        step="0.01"
+        min="0"
+        max="1"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Mean speed</mat-label>
+        <mat-label>{{form.get("meanSpeedCar")?.value + " km/h"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="meanSpeedCar"
+        thumbLabel
+        step="1"
+        min="0"
+        max="150"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Standard deviation around the mean</mat-label>
+        <mat-label>{{form.get("sdSpeedCar")?.value + " km/h"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="sdSpeedCar"
+        thumbLabel
+        step="1"
+        min="0"
+        max="150"
+        aria-label="units"></mat-slider>
+    </mat-card>
+
+
+    <mat-card class="vehicles-form-column">
+      <mat-card-title>Truck parameters</mat-card-title>
+      <div class="slider-label">
+        <mat-label>Global rate</mat-label>
+        <mat-label>{{form.get("rateTruck")?.value}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="rateTruck"
+        thumbLabel
+        step="0.01"
+        min="0"
+        max="1"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Mean Speed</mat-label>
+        <mat-label>{{form.get("meanSpeedTruck")?.value + " km/h"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="meanSpeedTruck"
+        thumbLabel
+        step="1"
+        min="0"
+        max="150"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Standard deviation around the mean</mat-label>
+        <mat-label>{{form.get("sdSpeedTruck")?.value + " km/h"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="sdSpeedTruck"
+        thumbLabel
+        step="1"
+        min="0"
+        max="150"
+        aria-label="units"></mat-slider>
+    </mat-card>
+
+
+    <mat-card class="vehicles-form-column">
+      <mat-card-title>Motorbike parameters</mat-card-title>
+      <div class="slider-label">
+        <mat-label>Global rate</mat-label>
+        <mat-label>{{form.get("rateMotorbike")?.value}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="rateMotorbike"
+        thumbLabel
+        step="0.01"
+        min="0"
+        max="1"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Mean speed</mat-label>
+        <mat-label>{{form.get("meanSpeedMotorbike")?.value + " km/h"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="meanSpeedMotorbike"
+        thumbLabel
+        step="1"
+        min="0"
+        max="150"
+        aria-label="units"></mat-slider>
+      <div class="slider-label">
+        <mat-label>Standard deviation around the mean</mat-label>
+        <mat-label>{{form.get("sdSpeedMotorbike")?.value + " km/h"}}</mat-label>
+      </div>
+      <mat-slider
+        formControlName="sdSpeedMotorbike"
+        thumbLabel
+        step="1"
+        min="0"
+        max="150"
+        aria-label="units"></mat-slider>
+    </mat-card>
+  </div>
+</form>
+
+<div class="buttons">
+  <button type="submit" [disabled]="form.disabled" mat-raised-button color="primary" (click)="onSubmit()">Start</button>
+  <button type="reset" [disabled]="!form.disabled" mat-raised-button color="secondary" (click)="onReset()">Reset</button>
+  <button type="button" [disabled]="!form.disabled" mat-raised-button color="secondary" (click)="onGetResult()">Get result</button>
+</div>
+
+<div class="result">
+  Cars per hours per lane : {{result || "No result"}}
+</div>
+
