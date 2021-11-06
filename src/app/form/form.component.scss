@@ -1,0 +1,76 @@
+h1 {
+  padding-top: 15px;
+}
+
+form {
+  padding-left: 50px;
+  padding-right: 50px;
+  overflow-y: scroll;
+  height: 80%;
+  padding-bottom: 10px;
+}
+
+.vehicles-form {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.vehicles-form-column {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.vehicles-title {
+  text-align: center;
+}
+
+mat-card-title {
+  padding: 10px;
+}
+
+.slider-label {
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  justify-content: space-between
+}
+
+.buttons {
+  position: sticky;
+  bottom: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100000;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-right: 20px;
+  margin-top: 10px;
+  background: white;
+}
+
+.mat-card {
+  background: #f9f9f9;
+}
+
+.result {
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.algo {
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  justify-content: space-evenly;
+}
