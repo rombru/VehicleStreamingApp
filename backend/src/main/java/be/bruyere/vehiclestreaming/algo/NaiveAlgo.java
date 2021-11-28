@@ -1,16 +1,10 @@
 package be.bruyere.vehiclestreaming.algo;
 
-import StreamQRE.*;
 import be.bruyere.vehiclestreaming.service.dto.StreamingDto;
 import be.bruyere.vehiclestreaming.service.dto.VehicleDto;
-import be.bruyere.vehiclestreaming.service.dto.VehicleType;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-import static be.bruyere.vehiclestreaming.service.dto.ItemType.TIMER;
 import static be.bruyere.vehiclestreaming.service.dto.ItemType.VEHICLE;
 import static be.bruyere.vehiclestreaming.service.dto.VehicleType.TRUCK;
 

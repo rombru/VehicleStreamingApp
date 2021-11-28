@@ -7,7 +7,7 @@ import be.bruyere.vehiclestreaming.service.dto.VehicleType;
 
 import java.util.Objects;
 
-import static be.bruyere.vehiclestreaming.service.dto.ItemType.TIMER;
+import static be.bruyere.vehiclestreaming.service.dto.ItemType.END15;
 import static be.bruyere.vehiclestreaming.service.dto.ItemType.VEHICLE;
 
 public class Algo {
@@ -52,7 +52,7 @@ public class Algo {
      * @return the QRE
      */
     private static QReCombine<StreamingDto, Double, Double, Double> averageSpeedOfVehicles() {
-        var is15MinToken = new QReAtomic<StreamingDto,Double>(x -> Objects.equals(x.getItemType(),TIMER), x -> 0D);
+        var is15MinToken = new QReAtomic<StreamingDto,Double>(x -> Objects.equals(x.getItemType(), END15), x -> 0D);
 
         var isVehicleSpeedToken = new QReAtomic<StreamingDto,Double>(x -> Objects.equals(x.getItemType(),VEHICLE), x -> ((VehicleDto)x).getSpeed().doubleValue());
         var isSpeed = new QReElse<>(isVehicleSpeedToken, is15MinToken);
@@ -73,7 +73,7 @@ public class Algo {
      */
     private static QReCombine<StreamingDto, Double, Double, Double> peakHourFactor() {
         var isVehicleToken = new QReAtomic<StreamingDto,Double>(x -> Objects.equals(x.getItemType(),VEHICLE), x -> 1D);
-        var is15MinToken = new QReAtomic<StreamingDto, Double>(x -> Objects.equals(x.getItemType(),TIMER), x -> 1D);
+        var is15MinToken = new QReAtomic<StreamingDto, Double>(x -> Objects.equals(x.getItemType(), END15), x -> 1D);
 
         var sumOfVehicle = new QReIter<>(isVehicleToken, 0D, Double::sum, x -> x);
         var sumOfVehiclesDuring15Min = new QReSplit<>(sumOfVehicle, is15MinToken, (x, y) -> x);
@@ -107,15 +107,15 @@ public class Algo {
      * @return the QRE
      */
     private static QReCombine<StreamingDto, Long, Long, Double> percentageOfTrucks() {
-        var is15MinToken = new QReAtomic<StreamingDto,Long>(x -> Objects.equals(x.getItemType(),TIMER), x -> 0L);
+        var is15MinToken = new QReAtomic<StreamingDto,Long>(x -> Objects.equals(x.getItemType(), END15), x -> 0L);
         var isVehicleToken = new QReAtomic<StreamingDto,Long>(x -> Objects.equals(x.getItemType(),VEHICLE), x -> 1L);
-        var isVehicle = new QReElse<>(isVehicleToken, is15MinToken);
-        var isVehicleSum = new QReIter<>(isVehicle, 0L, Long::sum, x -> x);
+        var isVehicleValue = new QReElse<>(isVehicleToken, is15MinToken);
+        var isVehicleSum = new QReIter<>(isVehicleValue, 0L, Long::sum, x -> x);
 
         var isTruckToken = new QReAtomic<StreamingDto,Long>(x -> Objects.equals(x.getItemType(),VEHICLE) && ((VehicleDto)x).getType() == VehicleType.TRUCK, x -> 1L);
         var isNotTruckToken = new QReAtomic<StreamingDto,Long>(x -> !Objects.equals(x.getItemType(),VEHICLE) || ((VehicleDto)x).getType() != VehicleType.TRUCK, x -> 0L);
-        var isTruck = new QReElse<>(isTruckToken, isNotTruckToken);
-        var isTruckSum = new QReIter<>(isTruck, 0L, Long::sum, x -> x);
+        var isTruckValue = new QReElse<>(isTruckToken, isNotTruckToken);
+        var isTruckSum = new QReIter<>(isTruckValue, 0L, Long::sum, x -> x);
 
         return new QReCombine<>(isTruckSum, isVehicleSum, (x, y) -> x.doubleValue()/y.doubleValue());
     }

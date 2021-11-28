@@ -7,7 +7,7 @@ import be.bruyere.vehiclestreaming.service.dto.VehicleType;
 
 import java.util.Objects;
 
-import static be.bruyere.vehiclestreaming.service.dto.ItemType.TIMER;
+import static be.bruyere.vehiclestreaming.service.dto.ItemType.END15;
 import static be.bruyere.vehiclestreaming.service.dto.ItemType.VEHICLE;
 
 public class LazyAlgo {
@@ -49,15 +49,15 @@ public class LazyAlgo {
      * @return the QRE
      */
     private static CombineQRE<StreamingDto, Double, Double, Double> averageSpeedOfVehicles() {
-        var is15MinToken = new AtomQRE<StreamingDto,Double>(x -> Objects.equals(x.getItemType(),TIMER), x -> 0D);
+        var is15MinToken = new AtomQRE<StreamingDto,Double>(x -> Objects.equals(x.getItemType(), END15), x -> 0D);
 
         var isVehicleSpeedToken = new AtomQRE<StreamingDto,Double>(x -> Objects.equals(x.getItemType(),VEHICLE), x -> ((VehicleDto)x).getSpeed().doubleValue());
         var isSpeed = new ElseQRE<>(isVehicleSpeedToken, is15MinToken);
-        var isSpeedSum = new IterQRE<>(isSpeed, 0D, Double::sum, 1, x -> x);
+        var isSpeedSum = new IterQRE<>(isSpeed, 0D, Double::sum, 1000, x -> x);
 
         var isVehicleCountToken = new AtomQRE<StreamingDto,Double>(x -> Objects.equals(x.getItemType(),VEHICLE), x -> 1D);
         var isCount = new ElseQRE<>(isVehicleCountToken, is15MinToken);
-        var isCountSum = new IterQRE<>(isCount, 0D, Double::sum, 1, x -> x);
+        var isCountSum = new IterQRE<>(isCount, 0D, Double::sum, 1000, x -> x);
 
         return new CombineQRE<>(isSpeedSum, isCountSum, (x, y) -> x/y);
     }
@@ -68,14 +68,14 @@ public class LazyAlgo {
      * fifteen minutes during peak hour.
      * @return the QRE
      */
-    private static CombineQRE<StreamingDto, Double, Double, Double> peakHourFactor() {
+    public static CombineQRE<StreamingDto, Double, Double, Double> peakHourFactor() {
         var isVehicleToken = new AtomQRE<StreamingDto,Double>(x -> Objects.equals(x.getItemType(),VEHICLE), x -> 1D);
-        var is15MinToken = new AtomQRE<StreamingDto, Double>(x -> Objects.equals(x.getItemType(),TIMER), x -> 1D);
+        var is15MinToken = new AtomQRE<StreamingDto, Double>(x -> Objects.equals(x.getItemType(), END15), x -> 1D);
 
-        var sumOfVehicle = new IterQRE<>(isVehicleToken, 0D, Double::sum, 1, x -> x);
+        var sumOfVehicle = new IterQRE<>(isVehicleToken, 0D, Double::sum, 1000, x -> x);
         var sumOfVehiclesDuring15Min = new SplitQRE<>(sumOfVehicle, is15MinToken, (x, y) -> x, x -> x);
 
-        var repeatOfSumOfVehiclesDuring15Min = new IterQRE<>(sumOfVehiclesDuring15Min, 0D, (x,y) -> x > y ? x : y, 1, x -> x);
+        var repeatOfSumOfVehiclesDuring15Min = new IterQRE<>(sumOfVehiclesDuring15Min, 0D, (x,y) -> x > y ? x : y, 1000, x -> x);
         var sumOfVehiclesDuringLast15Min = new SplitQRE<>(repeatOfSumOfVehiclesDuring15Min, sumOfVehicle, (x, y) -> x > y ? x : y, x -> x);
 
         var sumOfVehicleDuring1Hour = new WindowQRE<>(sumOfVehiclesDuring15Min, 0D, Double::sum, x -> x, 4);
@@ -92,7 +92,7 @@ public class LazyAlgo {
      * @param slopeGrade the slope grade
      * @return the QRE
      */
-    private static ApplyQRE<StreamingDto, Double, Double> heavyVehicleFactor(
+    public static ApplyQRE<StreamingDto, Double, Double> heavyVehicleFactor(
         Double length,
         Double slopeGrade
     ) {
@@ -103,16 +103,16 @@ public class LazyAlgo {
      * Compute the percentage of trucks
      * @return the QRE
      */
-    private static CombineQRE<StreamingDto, Long, Long, Double> percentageOfTrucks() {
-        var is15MinToken = new AtomQRE<StreamingDto,Long>(x -> Objects.equals(x.getItemType(),TIMER), x -> 0L);
+    public static CombineQRE<StreamingDto, Long, Long, Double> percentageOfTrucks() {
+        var is15MinToken = new AtomQRE<StreamingDto,Long>(x -> Objects.equals(x.getItemType(), END15), x -> 0L);
         var isVehicleToken = new AtomQRE<StreamingDto,Long>(x -> Objects.equals(x.getItemType(),VEHICLE), x -> 1L);
         var isVehicle = new ElseQRE<>(isVehicleToken, is15MinToken);
-        var isVehicleSum = new IterQRE<>(isVehicle, 0L, Long::sum, 1, x -> x);
+        var isVehicleSum = new IterQRE<>(isVehicle, 0L, Long::sum, 1000, x -> x);
 
         var isTruckToken = new AtomQRE<StreamingDto,Long>(x -> Objects.equals(x.getItemType(),VEHICLE) && ((VehicleDto)x).getType() == VehicleType.TRUCK, x -> 1L);
         var isNotTruckToken = new AtomQRE<StreamingDto,Long>(x -> !Objects.equals(x.getItemType(),VEHICLE) || ((VehicleDto)x).getType() != VehicleType.TRUCK, x -> 0L);
         var isTruck = new ElseQRE<>(isTruckToken, isNotTruckToken);
-        var isTruckSum = new IterQRE<>(isTruck, 0L, Long::sum, 1, x -> x);
+        var isTruckSum = new IterQRE<>(isTruck, 0L, Long::sum, 1000, x -> x);
 
         return new CombineQRE<>(isTruckSum, isVehicleSum, (x, y) -> x.doubleValue()/y.doubleValue());
     }

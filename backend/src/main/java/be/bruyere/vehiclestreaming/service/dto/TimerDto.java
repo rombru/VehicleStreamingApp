@@ -9,6 +9,6 @@ import lombok.*;
 public class TimerDto implements StreamingDto {
     @Override
     public ItemType getItemType() {
-        return ItemType.TIMER;
+        return ItemType.END15;
     }
 }

@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 @Getter(onMethod = @__({@JsonValue}))
 @AllArgsConstructor
 public enum ItemType {
-    TIMER("TIMER"),
+    END15("TIMER"),
     VEHICLE("VEHICLE");
 
     private String value;

@@ -24,6 +24,7 @@ public class LazyVehicleService {
 
     private void configure(ParameterDto parameter) {
         System.out.println("Configured");
+//        eval = LazyAlgo.percentageOfTrucks().start();
         eval = LazyAlgo.computeLaneCapacity(
             parameter.getLength(),
             parameter.getSlopeGrade(),
