@@ -1,7 +1,7 @@
 package be.bruyere.vehiclestreaming.service;
 
 import StreamQRE.Eval;
-import be.bruyere.vehiclestreaming.algo.Algo;
+import be.bruyere.vehiclestreaming.algo.accident.StreamQREAccidentAlgo;
 import be.bruyere.vehiclestreaming.service.dto.ParameterDto;
 import be.bruyere.vehiclestreaming.service.dto.StreamingDto;
 import be.bruyere.vehiclestreaming.service.dto.TimerDto;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.logging.StreamHandler;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +22,11 @@ public class VehicleService {
 
     private void configure(ParameterDto parameter) {
         System.out.println("Configured");
-        eval = Algo.computeLaneCapacity(
-            parameter.getLength(),
-            parameter.getSlopeGrade(),
-            parameter.getHabitualUseFactor()).getEval().start();
+        eval = StreamQREAccidentAlgo.averageSpeedOfVehiclesBeforeLastAccident().getEval().start();
+//        eval = StreamQREAlgo.computeLaneCapacity(
+//            parameter.getLength(),
+//            parameter.getSlopeGrade(),
+//            parameter.getHabitualUseFactor()).getEval().start();
     }
 
     public Double getOutput() {
@@ -40,7 +40,7 @@ public class VehicleService {
 
     public void next(VehicleDto vehicle) {
         this.eval = eval.next(vehicle);
-        System.out.println(this.eval.getOutput());
+//        System.out.println(this.eval.getOutput());
     }
 
     public void reset() {
@@ -51,7 +51,6 @@ public class VehicleService {
         scheduleTaskService.addTaskToScheduler(
             1,
             () -> {
-                System.out.println("Minute");
                 eval = eval.next(new TimerDto());
             },
             Instant.now().plus(15, ChronoUnit.SECONDS),

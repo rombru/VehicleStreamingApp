@@ -6,15 +6,15 @@
     <mat-card class="vehicles-form-column">
       <mat-card-title>Global parameters</mat-card-title>
       <mat-radio-group class="algo" formControlName="algo">
-        <mat-radio-button value="{{AlgoTypeEnum.STREAMQRE}}">StreamQRE</mat-radio-button>
-        <mat-radio-button value="{{AlgoTypeEnum.LAZYQRE}}">LazyQRE</mat-radio-button>
-        <mat-radio-button value="{{AlgoTypeEnum.NAIVE}}">Naive Algo</mat-radio-button>
+        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.STREAMQRE}}">StreamQRE</mat-radio-button>
+        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.LAZYQRE}}">LazyQRE</mat-radio-button>
+        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.NAIVE}}">Naive Algo</mat-radio-button>
       </mat-radio-group>
       <div class="slider-label">
         <mat-label>Vehicle density</mat-label>
         <mat-label>{{form.get("density")?.value + " vehicle(s)/min"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="density"
         thumbLabel
         step="100"
@@ -25,7 +25,7 @@
         <mat-label>Time acceleration</mat-label>
         <mat-label>{{form.get("acceleration")?.value + "x"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="acceleration"
         thumbLabel
         step="0.1"
@@ -36,7 +36,7 @@
         <mat-label>Slope grade</mat-label>
         <mat-label>{{form.get("slopeGrade")?.value + "%"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="slopeGrade"
         thumbLabel
         step="0.1"
@@ -47,7 +47,7 @@
         <mat-label>Tunnel length</mat-label>
         <mat-label>{{form.get("length")?.value + "km"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="length"
         thumbLabel
         step="0.1"
@@ -58,7 +58,7 @@
         <mat-label>Habitual use factor</mat-label>
         <mat-label>{{form.get("habitualUseFactor")?.value}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="habitualUseFactor"
         thumbLabel
         step="0.01"
@@ -73,7 +73,7 @@
         <mat-label>Global rate</mat-label>
         <mat-label>{{form.get("rateCar")?.value}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="rateCar"
         thumbLabel
         step="0.01"
@@ -84,7 +84,7 @@
         <mat-label>Mean speed</mat-label>
         <mat-label>{{form.get("meanSpeedCar")?.value + " km/h"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="meanSpeedCar"
         thumbLabel
         step="1"
@@ -95,7 +95,7 @@
         <mat-label>Standard deviation around the mean</mat-label>
         <mat-label>{{form.get("sdSpeedCar")?.value + " km/h"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="sdSpeedCar"
         thumbLabel
         step="1"
@@ -111,7 +111,7 @@
         <mat-label>Global rate</mat-label>
         <mat-label>{{form.get("rateTruck")?.value}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="rateTruck"
         thumbLabel
         step="0.01"
@@ -122,7 +122,7 @@
         <mat-label>Mean Speed</mat-label>
         <mat-label>{{form.get("meanSpeedTruck")?.value + " km/h"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="meanSpeedTruck"
         thumbLabel
         step="1"
@@ -133,7 +133,7 @@
         <mat-label>Standard deviation around the mean</mat-label>
         <mat-label>{{form.get("sdSpeedTruck")?.value + " km/h"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="sdSpeedTruck"
         thumbLabel
         step="1"
@@ -149,7 +149,7 @@
         <mat-label>Global rate</mat-label>
         <mat-label>{{form.get("rateMotorbike")?.value}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="rateMotorbike"
         thumbLabel
         step="0.01"
@@ -160,7 +160,7 @@
         <mat-label>Mean speed</mat-label>
         <mat-label>{{form.get("meanSpeedMotorbike")?.value + " km/h"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="meanSpeedMotorbike"
         thumbLabel
         step="1"
@@ -171,7 +171,7 @@
         <mat-label>Standard deviation around the mean</mat-label>
         <mat-label>{{form.get("sdSpeedMotorbike")?.value + " km/h"}}</mat-label>
       </div>
-      <mat-slider
+      <mat-slider [color]="Color"
         formControlName="sdSpeedMotorbike"
         thumbLabel
         step="1"
@@ -183,9 +183,9 @@
 </form>
 
 <div class="buttons">
-  <button type="submit" [disabled]="form.disabled" mat-raised-button color="primary" (click)="onSubmit()">Start</button>
-  <button type="reset" [disabled]="!form.disabled" mat-raised-button color="secondary" (click)="onReset()">Reset</button>
-  <button type="button" [disabled]="!form.disabled" mat-raised-button color="secondary" (click)="onGetResult()">Get result</button>
+  <button type="submit" mat-raised-button color="primary" (click)="onSubmit()">Start</button>
+  <button type="reset" mat-raised-button color="secondary" (click)="onReset()">Reset</button>
+  <button type="button" mat-raised-button color="secondary" (click)="onGetResult()">Get result</button>
 </div>
 
 <div class="result">

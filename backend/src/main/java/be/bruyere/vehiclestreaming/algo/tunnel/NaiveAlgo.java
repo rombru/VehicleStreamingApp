@@ -1,4 +1,4 @@
-package be.bruyere.vehiclestreaming.algo;
+package be.bruyere.vehiclestreaming.algo.tunnel;
 
 import be.bruyere.vehiclestreaming.service.dto.StreamingDto;
 import be.bruyere.vehiclestreaming.service.dto.VehicleDto;

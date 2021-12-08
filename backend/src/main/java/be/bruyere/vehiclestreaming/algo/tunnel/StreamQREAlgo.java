@@ -1,4 +1,4 @@
-package be.bruyere.vehiclestreaming.algo;
+package be.bruyere.vehiclestreaming.algo.tunnel;
 
 import StreamQRE.*;
 import be.bruyere.vehiclestreaming.service.dto.StreamingDto;
@@ -10,7 +10,7 @@ import java.util.Objects;
 import static be.bruyere.vehiclestreaming.service.dto.ItemType.END15;
 import static be.bruyere.vehiclestreaming.service.dto.ItemType.VEHICLE;
 
-public class Algo {
+public class StreamQREAlgo {
 
     private static final EquivalenceFactorMatrix matrix = new EquivalenceFactorMatrix();
 
@@ -43,7 +43,7 @@ public class Algo {
      * @return the QRE
      */
     private static QReApply<StreamingDto, Double, Double> theoreticalCapacityPerTrafficLane() {
-        var isAverageSpeed = Algo.averageSpeedOfVehicles();
+        var isAverageSpeed = StreamQREAlgo.averageSpeedOfVehicles();
         return new QReApply<>(isAverageSpeed, x -> x * 10.0 + 1200.0);
     }
 

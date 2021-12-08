@@ -1,15 +1,12 @@
 package be.bruyere.vehiclestreaming.service;
 
 import be.bruyere.romain.eval.EvalExtension;
-import be.bruyere.vehiclestreaming.algo.LazyAlgo;
-import be.bruyere.vehiclestreaming.service.dto.ParameterDto;
-import be.bruyere.vehiclestreaming.service.dto.StreamingDto;
-import be.bruyere.vehiclestreaming.service.dto.TimerDto;
-import be.bruyere.vehiclestreaming.service.dto.VehicleDto;
+import be.bruyere.vehiclestreaming.algo.accident.LazyQREAccidentAlgo;
+import be.bruyere.vehiclestreaming.algo.tunnel.LazyQREAlgo;
+import be.bruyere.vehiclestreaming.service.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -24,8 +21,8 @@ public class LazyVehicleService {
 
     private void configure(ParameterDto parameter) {
         System.out.println("Configured");
-//        eval = LazyAlgo.percentageOfTrucks().start();
-        eval = LazyAlgo.computeLaneCapacity(
+//        eval = LazyQREAccidentAlgo.averageSpeedOfVehiclesBeforeLastAccident().start();
+        eval = LazyQREAlgo.computeLaneCapacity(
             parameter.getLength(),
             parameter.getSlopeGrade(),
             parameter.getHabitualUseFactor()).start();
@@ -47,7 +44,7 @@ public class LazyVehicleService {
 
     public void next(VehicleDto vehicle) {
         this.eval = eval.next(vehicle);
-        System.out.println(this.eval.result());
+//        System.out.println(this.eval.result());
     }
 
     public void reset() {

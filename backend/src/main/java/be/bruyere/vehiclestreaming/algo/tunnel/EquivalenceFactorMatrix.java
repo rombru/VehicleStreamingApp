@@ -1,4 +1,4 @@
-package be.bruyere.vehiclestreaming.algo;
+package be.bruyere.vehiclestreaming.algo.tunnel;
 
 public class EquivalenceFactorMatrix {
 

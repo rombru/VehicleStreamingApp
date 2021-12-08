@@ -1,6 +1,6 @@
 package be.bruyere.vehiclestreaming.service;
 
-import be.bruyere.vehiclestreaming.algo.NaiveAlgo;
+import be.bruyere.vehiclestreaming.algo.tunnel.NaiveAlgo;
 import be.bruyere.vehiclestreaming.service.dto.ParameterDto;
 import be.bruyere.vehiclestreaming.service.dto.TimerDto;
 import be.bruyere.vehiclestreaming.service.dto.VehicleDto;

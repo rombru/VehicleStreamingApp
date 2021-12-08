@@ -1,4 +1,4 @@
-package be.bruyere.vehiclestreaming.algo;
+package be.bruyere.vehiclestreaming.algo.tunnel;
 
 import be.bruyere.romain.qre.*;
 import be.bruyere.vehiclestreaming.service.dto.StreamingDto;
@@ -10,7 +10,7 @@ import java.util.Objects;
 import static be.bruyere.vehiclestreaming.service.dto.ItemType.END15;
 import static be.bruyere.vehiclestreaming.service.dto.ItemType.VEHICLE;
 
-public class LazyAlgo {
+public class LazyQREAlgo {
 
     private static final EquivalenceFactorMatrix matrix = new EquivalenceFactorMatrix();
 
@@ -40,7 +40,7 @@ public class LazyAlgo {
      * @return the QRE
      */
     private static ApplyQRE<StreamingDto, Double, Double> theoreticalCapacityPerTrafficLane() {
-        var isAverageSpeed = LazyAlgo.averageSpeedOfVehicles();
+        var isAverageSpeed = LazyQREAlgo.averageSpeedOfVehicles();
         return new ApplyQRE<>(isAverageSpeed, x -> x * 10.0 + 1200.0);
     }
 
@@ -103,7 +103,7 @@ public class LazyAlgo {
      * Compute the percentage of trucks
      * @return the QRE
      */
-    public static CombineQRE<StreamingDto, Long, Long, Double> percentageOfTrucks() {
+    public static CombineQRE<StreamingDto, Double, Long, Long> percentageOfTrucks() {
         var is15MinToken = new AtomQRE<StreamingDto,Long>(x -> Objects.equals(x.getItemType(), END15), x -> 0L);
         var isVehicleToken = new AtomQRE<StreamingDto,Long>(x -> Objects.equals(x.getItemType(),VEHICLE), x -> 1L);
         var isVehicle = new ElseQRE<>(isVehicleToken, is15MinToken);
