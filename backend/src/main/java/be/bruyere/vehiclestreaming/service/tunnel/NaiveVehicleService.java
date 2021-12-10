@@ -1,9 +1,10 @@
-package be.bruyere.vehiclestreaming.service;
+package be.bruyere.vehiclestreaming.service.tunnel;
 
-import be.bruyere.romain.eval.EvalExtension;
-import be.bruyere.vehiclestreaming.algo.accident.LazyQREAccidentAlgo;
-import be.bruyere.vehiclestreaming.algo.tunnel.LazyQREAlgo;
-import be.bruyere.vehiclestreaming.service.dto.*;
+import be.bruyere.vehiclestreaming.algo.tunnel.NaiveAlgo;
+import be.bruyere.vehiclestreaming.service.ScheduleTaskService;
+import be.bruyere.vehiclestreaming.service.dto.ParameterDto;
+import be.bruyere.vehiclestreaming.service.dto.TimerDto;
+import be.bruyere.vehiclestreaming.service.dto.VehicleDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,28 +14,21 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
-public class LazyVehicleService {
-
+public class NaiveVehicleService {
 
     private final ScheduleTaskService scheduleTaskService;
-    private EvalExtension.StartEval<StreamingDto, Double> eval;
+    private Double result;
 
     private void configure(ParameterDto parameter) {
         System.out.println("Configured");
-//        eval = LazyQREAccidentAlgo.averageSpeedOfVehiclesBeforeLastAccident().start();
-        eval = LazyQREAlgo.computeLaneCapacity(
+        NaiveAlgo.configure(
             parameter.getLength(),
             parameter.getSlopeGrade(),
-            parameter.getHabitualUseFactor()).start();
+            parameter.getHabitualUseFactor());
     }
 
     public Double getOutput() {
-        System.out.println("Output");
-        if(eval.result().nonEmpty()) {
-            return eval.result().get();
-        } else {
-            return null;
-        }
+        return result;
     }
 
     public void start(ParameterDto parameters) {
@@ -43,12 +37,10 @@ public class LazyVehicleService {
     }
 
     public void next(VehicleDto vehicle) {
-        this.eval = eval.next(vehicle);
-//        System.out.println(this.eval.result());
+        result = NaiveAlgo.computeNextVehicle(vehicle);
     }
 
     public void reset() {
-        eval = null;
         scheduleTaskService.removeTaskFromScheduler(1);
     }
 
@@ -57,7 +49,7 @@ public class LazyVehicleService {
             1,
             () -> {
                 System.out.println("Minute");
-                eval = eval.next(new TimerDto());
+                result = NaiveAlgo.computeNextVehicle(new TimerDto());
             },
             Instant.now().plus(15, ChronoUnit.SECONDS),
             Duration.ofSeconds(10));

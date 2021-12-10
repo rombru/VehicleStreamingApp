@@ -6,9 +6,11 @@
     <mat-card class="vehicles-form-column">
       <mat-card-title>Global parameters</mat-card-title>
       <mat-radio-group class="algo" formControlName="algo">
-        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.STREAMQRE}}">StreamQRE</mat-radio-button>
-        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.LAZYQRE}}">LazyQRE</mat-radio-button>
-        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.NAIVE}}">Naive Algo</mat-radio-button>
+        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.STREAMQRE}}">StreamQRE Traffic Monitoring</mat-radio-button>
+        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.LAZYQRE}}">LazyQRE Traffic Monitoring</mat-radio-button>
+        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.NAIVE}}">Naive Traffic Monitoring</mat-radio-button>
+        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.STREAMQREACCIDENT}}">LazyQRE Accident Monitoring</mat-radio-button>
+        <mat-radio-button [color]="Color" value="{{AlgoTypeEnum.LAZYQREACCIDENT}}">StreamQRE Accident Monitoring</mat-radio-button>
       </mat-radio-group>
       <div class="slider-label">
         <mat-label>Vehicle density</mat-label>

@@ -1,6 +1,6 @@
-package be.bruyere.vehiclestreaming.web.rest;
+package be.bruyere.vehiclestreaming.web.rest.tunnel;
 
-import be.bruyere.vehiclestreaming.service.LazyVehicleService;
+import be.bruyere.vehiclestreaming.service.tunnel.NaiveVehicleService;
 import be.bruyere.vehiclestreaming.service.dto.ParameterDto;
 import be.bruyere.vehiclestreaming.service.dto.VehicleDto;
 import lombok.RequiredArgsConstructor;
@@ -8,32 +8,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/vehicle/lazy")
+@RequestMapping("/api/vehicle/naive")
 @RequiredArgsConstructor
-public class LazyVehicleResource {
+public class NaiveVehicleResource {
 
-    private final LazyVehicleService lazyVehicleService;
+    private final NaiveVehicleService naiveVehicleService;
 
     @GetMapping("/output")
     public ResponseEntity<Double> getOutput() {
-        return ResponseEntity.ok(lazyVehicleService.getOutput());
+        return ResponseEntity.ok(naiveVehicleService.getOutput());
     }
 
     @PostMapping("/start")
     public ResponseEntity<Void> start(@RequestBody ParameterDto parameter){
-        lazyVehicleService.start(parameter);
+        naiveVehicleService.start(parameter);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/next")
     public ResponseEntity<Void> nextVehicle(@RequestBody VehicleDto vehicle) {
-        lazyVehicleService.next(vehicle);
+        naiveVehicleService.next(vehicle);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/reset")
     public ResponseEntity<Void> reset() {
-        lazyVehicleService.reset();
+        naiveVehicleService.reset();
         return ResponseEntity.ok().build();
     }
 }

@@ -1,7 +1,8 @@
-package be.bruyere.vehiclestreaming.service;
+package be.bruyere.vehiclestreaming.service.tunnel;
 
 import StreamQRE.Eval;
-import be.bruyere.vehiclestreaming.algo.accident.StreamQREAccidentAlgo;
+import be.bruyere.vehiclestreaming.algo.tunnel.StreamQREAlgo;
+import be.bruyere.vehiclestreaming.service.ScheduleTaskService;
 import be.bruyere.vehiclestreaming.service.dto.ParameterDto;
 import be.bruyere.vehiclestreaming.service.dto.StreamingDto;
 import be.bruyere.vehiclestreaming.service.dto.TimerDto;
@@ -22,11 +23,10 @@ public class VehicleService {
 
     private void configure(ParameterDto parameter) {
         System.out.println("Configured");
-        eval = StreamQREAccidentAlgo.averageSpeedOfVehiclesBeforeLastAccident().getEval().start();
-//        eval = StreamQREAlgo.computeLaneCapacity(
-//            parameter.getLength(),
-//            parameter.getSlopeGrade(),
-//            parameter.getHabitualUseFactor()).getEval().start();
+        eval = StreamQREAlgo.computeLaneCapacity(
+            parameter.getLength(),
+            parameter.getSlopeGrade(),
+            parameter.getHabitualUseFactor()).getEval().start();
     }
 
     public Double getOutput() {
@@ -40,7 +40,6 @@ public class VehicleService {
 
     public void next(VehicleDto vehicle) {
         this.eval = eval.next(vehicle);
-//        System.out.println(this.eval.getOutput());
     }
 
     public void reset() {

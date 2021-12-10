@@ -70,7 +70,8 @@ mat-card-title {
   padding-left: 10px;
   padding-right: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 15px;
   margin-bottom: 20px;
   justify-content: space-evenly;
 }

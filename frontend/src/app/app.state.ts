@@ -9,6 +9,8 @@ import {LazyVehicleService} from "../services/lazy-vehicle.service";
 import {AbstractVehicleService} from "../services/abstract-vehicle.service";
 import {AlgoTypeEnum} from "../models/algo-type.enum";
 import {NaiveVehicleService} from "../services/naive-vehicle.service";
+import {VehicleAccidentService} from "../services/vehicle-accident.service";
+import {LazyVehicleAccidentService} from "../services/lazy-vehicle-accident.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +27,9 @@ export class AppState {
 
   constructor(
     private vehicleService: VehicleService,
+    private vehicleAccidentService: VehicleAccidentService,
     private lazyVehicleService: LazyVehicleService,
+    private lazyVehicleAccidentService: LazyVehicleAccidentService,
     private naiveVehicleService: NaiveVehicleService
   ) {
   }
@@ -40,6 +44,12 @@ export class AppState {
         break;
       case AlgoTypeEnum.NAIVE:
         this.service = this.naiveVehicleService;
+        break;
+      case AlgoTypeEnum.STREAMQREACCIDENT:
+        this.service = this.vehicleAccidentService;
+        break;
+      case AlgoTypeEnum.LAZYQREACCIDENT:
+        this.service = this.lazyVehicleAccidentService;
         break;
     }
   }
