@@ -58,6 +58,6 @@ public class LazyVehicleService {
                 eval = eval.next(new TimerDto());
             },
             Instant.now().plus(15, ChronoUnit.SECONDS),
-            Duration.ofSeconds(10));
+            Duration.ofSeconds(15));
     }
 }
