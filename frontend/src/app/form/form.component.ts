@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Observable} from "rxjs";
-import {VehicleModel} from "../../models/vehicle.model";
 import {ParametersModel} from "../../models/parameters.model";
 import {AppState} from "../app.state";
 import {AlgoTypeEnum} from "../../models/algo-type.enum";
@@ -17,7 +15,6 @@ export class FormComponent implements OnInit {
   public readonly Color = "primary";
 
   public form: FormGroup;
-  public vehicles$: Observable<VehicleModel[]>;
   public result: number;
 
   constructor(
@@ -46,7 +43,6 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    //this.form.disable();
     const value : ParametersModel = this.form.getRawValue();
     this.appState.setServiceType(value.algo);
     this.appState.setParameters(value);
